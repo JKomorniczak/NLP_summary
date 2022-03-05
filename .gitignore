@@ -127,3 +127,4 @@ BBC News Summary/
 preprocessed_tech/
 
 .DS_Store
+vectorized_tech_tfidf/
