@@ -122,3 +122,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+BBC News Summary/
+preprocessed_tech/
+
+.DS_Store
