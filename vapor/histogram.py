@@ -1,15 +1,8 @@
-# from nltk.corpus import stopwords
 import nltk
 from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import os
-# from gensim.models import Word2Vec
-# import gensim.downloader
 
-
-# stopwords = stopwords.words('english')
-
-# load full text
 dir_text = 'BBC News Summary/News Articles/tech/'
 dir_summ = 'BBC News Summary/Summaries/tech/'
 
@@ -39,9 +32,6 @@ for news in arr:
     #     v = [w2v[x] for x in sentence_list[0]]
     #     print(v)
 
-
-
-    # exit()
 fig, ax = plt.subplots(2,1,figsize=(6,10))
 
 ax[0].hist(counts, bins=50)
