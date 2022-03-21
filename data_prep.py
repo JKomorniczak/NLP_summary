@@ -1,4 +1,3 @@
-import nltk
 import os
 import pandas as pd
 import re
@@ -36,7 +35,7 @@ for d_i, d in enumerate(dirs):
         for t in sentence_list_text:
             t = re.sub('\n', '', t)
             t = t.strip()
-            if len(t)==0:
+            if t=='':
                 continue
             if t[-1]=='.':
                 t=t[:-1]
@@ -44,7 +43,7 @@ for d_i, d in enumerate(dirs):
         for s in sentence_list_summ:
             s = re.sub('\n', '', s)
             s = s.strip()
-            if len(s)==0:
+            if s=='':
                 continue
             if s[-1]=='.':
                 s=s[:-1]
@@ -60,8 +59,8 @@ for d_i, d in enumerate(dirs):
             continue
                 
         data=[]
-        for sent_text in sentence_list_text:
-            if sent_text in sentence_list_summ:
+        for sent_text in sentence_list_text_cln:
+            if sent_text in sentence_list_summ_cln:
                 label=1
             else:
                 label=0
@@ -71,5 +70,7 @@ for d_i, d in enumerate(dirs):
         df = pd.DataFrame(data, columns = ['Sentence', 'Label'])
         df.to_csv('prep/%s%s'% (d, news)) 
         total[d_i] += 1
+
+        # print(sentence_list_text_cln)
         # exit()
 print(total)    
