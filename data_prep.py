@@ -1,50 +1,75 @@
 import nltk
 import os
 import pandas as pd
+import re
 
-dir_text = 'BBC News Summary/News Articles/tech/'
-dir_summ = 'BBC News Summary/Summaries/tech/'
+total = [0,0,0,0,0]
 
-arr = os.listdir(dir_text)
-for news in arr:
-    with open(dir_text + news) as f:
-        title = f.readline()
-        text = f.read()
-    with open(dir_summ + news) as f:
-        summ = f.read()
-    
-    summ = summ.replace('.', '. ')
-    text = text.replace('\n', ' ')
-    text = text.lstrip()
+dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
+dir_text = 'BBC News Summary/News Articles/'
+dir_summ = 'BBC News Summary/Summaries/'
 
-    summ = summ.replace('"', '')
-    text = text.replace('"', '')
-    # print(text)
+for d_i, d in enumerate(dirs):
+    text_files = "%s%s" % (dir_text,d)
+    summ_files = "%s%s" % (dir_summ,d)
 
-    sentence_list_text = nltk.sent_tokenize(text)
-    sentence_list_summ = nltk.sent_tokenize(summ)
+    arr = os.listdir(text_files)
+    for news in arr:
+        with open(text_files + news) as f:
+            title = f.readline()
+            text = f.read()
+        with open(summ_files + news) as f:
+            summ = f.read()
 
-    err = False
-    for sent_sum in sentence_list_summ:
-        if sent_sum not in sentence_list_text:
-            # print(news, sent_sum)
-            err = True
-    if err:
-        continue
+        summ = re.sub("\"|-","",summ)
+        text = re.sub("\"|-","",text)
+
+        summ = re.sub("\s\s"," ",summ)
+        text = re.sub("\s\s"," ",text)
+
+        sentence_list_summ = re.split('(?=\.[A-Z])\.',summ)
+        sentence_list_text = re.split('\.(?<=\.)[\s\n]',text)
+
+        sentence_list_text_cln = []
+        sentence_list_summ_cln = []
+
+        for t in sentence_list_text:
+            t = re.sub('\n', '', t)
+            t = t.strip()
+            if len(t)==0:
+                continue
+            if t[-1]=='.':
+                t=t[:-1]
+            sentence_list_text_cln.append(t)
+        for s in sentence_list_summ:
+            s = re.sub('\n', '', s)
+            s = s.strip()
+            if len(s)==0:
+                continue
+            if s[-1]=='.':
+                s=s[:-1]
+            sentence_list_summ_cln.append(s)
+
+        err = False
+        for sent_sum in sentence_list_summ_cln:
+            if sent_sum not in sentence_list_text_cln:
+                print(d, news, sent_sum)
+                # exit()
+                err = True
+        if err:
+            continue
+                
+        data=[]
+        for sent_text in sentence_list_text:
+            if sent_text in sentence_list_summ:
+                label=1
+            else:
+                label=0
             
-    data=[]
-    for sent_text in sentence_list_text:
-        if sent_text in sentence_list_summ:
-            label=1
-        else:
-            label=0
+            data.append([sent_text, label])
         
-        data.append([sent_text, label])
-    
-    df = pd.DataFrame(data, columns = ['Sentence', 'Label'])
-    df.to_csv('preprocessed_tech/%s'% news) 
-    # exit()
-
-
-
-  
+        df = pd.DataFrame(data, columns = ['Sentence', 'Label'])
+        df.to_csv('prep/%s%s'% (d, news)) 
+        total[d_i] += 1
+        # exit()
+print(total)    
