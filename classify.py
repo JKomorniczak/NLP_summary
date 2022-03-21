@@ -6,29 +6,38 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn.naive_bayes import GaussianNB
 
 
-dir = 'vectorized_tech_tfidf/'
-arr = os.listdir(dir)
+dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
+v_methods = ['cv/', 'tf/', 'tfidf/']
+# vect_dir = 'vect/'
+vect_dir = 'vect_c/'
 
-for file in arr:
-    data = np.load(dir+file)
-    X = data[:,:-1]
-    y = data[:,-1]
+for d in dirs:
+    dir = "%s%s%s" % (vect_dir, v_methods[0], d) # temp tylko cv
+    arr = os.listdir(dir)
 
-    X = SelectKBest(chi2, k=10).fit_transform(X, y)
+    for file in arr:
+        print(dir+file)
+        if file=='.DS_Store':
+            continue
+        data = np.load(dir+file)
+        X = data[:,:-1]
+        y = data[:,-1]
 
-    res = []
+        X = SelectKBest(chi2, k=10).fit_transform(X, y)
 
-    loo = LeaveOneOut()
-    for train_index, test_index in loo.split(X):
-        X_train, X_test = X[train_index], X[test_index]
-        y_train, y_test = y[train_index], y[test_index]
+        res = []
 
-        clf = GaussianNB()
-        y_pred = clf.fit(X_train, y_train).predict(X_test)
+        loo = LeaveOneOut()
+        for train_index, test_index in loo.split(X):
+            X_train, X_test = X[train_index], X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
 
-        res.append(y_pred == y_test)
-    
-    res = np.array(res, dtype=int)
-    accuracy = np.sum(res)/len(res)
-    print(accuracy)
-    # exit()
+            clf = GaussianNB()
+            y_pred = clf.fit(X_train, y_train).predict(X_test)
+
+            res.append(y_pred == y_test)
+        
+        res = np.array(res, dtype=int)
+        accuracy = np.sum(res)/len(res)
+        print(accuracy)
+    exit()
