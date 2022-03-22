@@ -25,13 +25,6 @@ for news in arr:
     counts.append(len(sentence_list_text))
     ir.append(len(sentence_list_summ)/len(sentence_list_text))
 
-    # # nw
-    # w2v = gensim.downloader.load('word2vec-google-news-300')
-
-    # for sentence in sentence_list:
-    #     v = [w2v[x] for x in sentence_list[0]]
-    #     print(v)
-
 fig, ax = plt.subplots(2,1,figsize=(6,10))
 
 ax[0].hist(counts, bins=50)
