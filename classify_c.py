@@ -8,7 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
 v_methods = ['cv/', 'tf/', 'tfidf/']
-vect_dir = 'vect/'
+vect_dir = 'vect_c/'
 
 for d in dirs:
     dir = "%s%s%s" % (vect_dir, v_methods[0], d) # temp tylko cv
