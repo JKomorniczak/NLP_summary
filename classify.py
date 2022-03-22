@@ -5,6 +5,7 @@ from sklearn.feature_selection import chi2
 from sklearn.model_selection import LeaveOneOut
 from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
@@ -25,7 +26,13 @@ for d in dirs:
         X = data[:,:-1]
         y = data[:,-1]
 
-        X = SelectKBest(chi2, k=10).fit_transform(X, y)
+        # print(X.shape)
+        # exit()
+
+        # X = SelectKBest(chi2, k=10).fit_transform(X, y)
+        if min(X.shape)<10:
+            continue
+        X = PCA(n_components=10).fit_transform(X, y)
 
         res = []
 
