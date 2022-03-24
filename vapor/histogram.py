@@ -41,4 +41,5 @@ for subject in subjects:
     ax[1].set_title(subject + ' - sentences percentage in summaries')
     ax[1].set_xlabel("sentences percentage in summaries")
     ax[1].set_ylabel("Number of summaries")
+    
     plt.savefig(subject + '.png')
