@@ -6,7 +6,7 @@ from sklearn.model_selection import LeaveOneOut
 from sklearn.naive_bayes import GaussianNB
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
-
+from sklearn.metrics import balanced_accuracy_score
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
 v_methods = ['cv/', 'tf/', 'tfidf/']
@@ -19,38 +19,45 @@ for d in dirs:
     arr = os.listdir(dir)
 
     for file in arr:
-        # print(dir+file)
+        res = []
+
+        # test data
         if file=='.DS_Store':
             continue
         data = np.load(dir+file)
-        X = data[:,:-1]
-        y = data[:,-1]
+        X_test = data[:,:-1]
+        y_test = data[:,-1]
 
-        # print(X.shape)
-        # exit()
+        #collect other (train data)
+        other_data = []
+        for file_other in arr:
+            if file_other in ['.DS_Store', file]:
+                continue
+            data = np.load(dir+file)
+            other_data.append(data)
+        other_data = np.array(other_data)
+        other_data = other_data.reshape((other_data.shape[0]*other_data.shape[1], -1))
+        X_train = other_data[:,:-1]
+        y_train = other_data[:,-1]
 
-        # X = SelectKBest(chi2, k=10).fit_transform(X, y)
-        if min(X.shape)<10:
-            continue
-        X = PCA(n_components=10).fit_transform(X, y)
+        # select features
+        X_all = np.concatenate((X_train,X_test), axis=0)
+        y_all = np.concatenate((y_train,y_test), axis=0)
 
-        res = []
+        selector = SelectKBest(chi2, k=10).fit(X_all, y_all)
 
-        loo = LeaveOneOut()
-        for train_index, test_index in loo.split(X):
-            X_train, X_test = X[train_index], X[test_index]
-            y_train, y_test = y[train_index], y[test_index]
+        X_test = selector.transform(X_test)
+        X_train = selector.transform(X_train)
 
-            clf = GaussianNB()
-            y_pred = clf.fit(X_train, y_train).predict(X_test)
+        # classify
+        clf = GaussianNB()
+        y_pred = clf.fit(X_train, y_train).predict(X_test)
 
-            res.append(y_pred == y_test)
-        
-        res = np.array(res, dtype=int)
-        accuracy = np.sum(res)/len(res)
-        print(accuracy)
+        bac = balanced_accuracy_score(y_pred, y_test)
+        print(bac)
+        res.append(bac)
+        r.append(bac)
 
-        r.append(accuracy)
     plt.hist(r, bins=60)
     plt.savefig('foo_c.png')
 

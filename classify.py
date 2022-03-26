@@ -29,10 +29,10 @@ for d in dirs:
         # print(X.shape)
         # exit()
 
-        # X = SelectKBest(chi2, k=10).fit_transform(X, y)
-        if min(X.shape)<10:
-            continue
-        X = PCA(n_components=10).fit_transform(X, y)
+        X = SelectKBest(chi2, k=10).fit_transform(X, y)
+        # if min(X.shape)<10:
+        #     continue
+        # X = PCA(n_components=10).fit_transform(X, y)
 
         res = []
 
