@@ -15,21 +15,21 @@ np.random.seed(123)
 def get_base_classifiers(random_state):
     return [
     GaussianNB(),
-    KNeighborsClassifier(),
+    KNeighborsClassifier(n_neighbors=3),
     MLPClassifier(random_state=random_state),
     DecisionTreeClassifier(random_state=random_state)
     ]
 
 base_extractors = [
     SelectKBest(chi2, k=5),
-    SelectKBest(chi2, k=10),
+    # SelectKBest(chi2, k=10),
     SelectKBest(chi2, k=15),
-    SelectKBest(chi2, k=20),
+    # SelectKBest(chi2, k=20),
     SelectKBest(chi2, k=25),
     PCA(n_components=5),
-    PCA(n_components=10),
+    # PCA(n_components=10),
     PCA(n_components=15),
-    PCA(n_components=20),
+    # PCA(n_components=20),
     PCA(n_components=25)]
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
@@ -61,10 +61,10 @@ for rep, r in enumerate(random_states):
     base_classifiers = get_base_classifiers(r)
     print(base_classifiers)
 
+    # news categories
+    for category_id, category in enumerate(dirs):
     # metody wektoryzacji
-    for v_id, v in enumerate(v_methods):
-        # news categories
-        for category_id, category in enumerate(dirs):
+        for v_id, v in enumerate(v_methods):
             dir = "%s%s%s" % (vect_dir, v, category)
             arr = os.listdir(dir)
             if '.DS_Store' in arr:
@@ -80,7 +80,6 @@ for rep, r in enumerate(random_states):
                 for e_id, e in enumerate(base_extractors):
 
                     extractor = clone(e)
-                    
                     # gdy nie mozna ekstrakcji
                     try:
                         X_extracted = extractor.fit_transform(X, y)
@@ -100,12 +99,13 @@ for rep, r in enumerate(random_states):
 
                         accuracy = np.sum(loo_res)/len(loo_res)
                         results[category_id][rep, v_id, e_id, c_id, n_id] = accuracy
-                        print(accuracy)
-                        print(category, rep, v, e_id, c_id, n_id)
 
-        for r_id, r in enumerate(results):
-            np.save('res_news_%i'%r_id, r)
-                    
+                    print(accuracy)
+                    print(category, v, e_id, c_id, n_id)
+
+            for r_id, r in enumerate(results):
+                np.save('res_news_%i'%r_id, r)
+                        
 
 
 

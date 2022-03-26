@@ -57,6 +57,9 @@ for d_i, d in enumerate(dirs):
                 err = True
         if err:
             continue
+
+        if len(sentence_list_text_cln)<3:
+            continue
                 
         data=[]
         for sent_text in sentence_list_text_cln:
