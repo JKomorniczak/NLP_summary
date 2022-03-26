@@ -8,13 +8,20 @@ dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
 dir_text = 'BBC News Summary/News Articles/'
 dir_summ = 'BBC News Summary/Summaries/'
 
+ctr=0
+
 for d_i, d in enumerate(dirs):
     text_files = "%s%s" % (dir_text, d)
     summ_files = "%s%s" % (dir_summ, d)
 
     arr = os.listdir(text_files)
     for news in arr:
+        ctr += 1
+        # if ctr != 5:
+        #     continue
+
         with open(text_files + news) as f:
+            # print(f.name)
             try:
                 title = f.readline()
                 text = f.read()
@@ -25,27 +32,33 @@ for d_i, d in enumerate(dirs):
             summ = f.read()
 
         summ = re.sub("\"|-|'|:", "", summ)
-        summ = re.sub("[,]", " ", summ)
+        summ = re.sub(",", " ", summ)
         text = re.sub("\"|-|'|:", "", text)
-        text = re.sub("[,]", " ", text)
+        text = re.sub(",", " ", text)
 
         summ = re.sub("\s\s", " ", summ)
         text = re.sub("\s\s", " ", text)
 
-        sentence_list_summ = re.split('.+(?=[\.\?\!]\s?[A-Z])', summ)
+        sentence_list_summ = re.split('(?=[\.\?\!]\s?[A-Z])', summ)
         sentence_list_text = re.split('\.(?<=[\.\?\!])[\s\n]', text)
 
         sentence_list_text_cln = []
         sentence_list_summ_cln = []
 
         for t in sentence_list_text:
-            t = re.sub('^[\W](.*)[\W]$', '', t)
+            t = re.sub('\n', '', t)
+            t = re.sub('^[\W]', '', t)
+            t = re.sub('[\W]$', '', t)
+            t = t.strip()
             if t == '':
                 continue
             sentence_list_text_cln.append(t)
 
         for s in sentence_list_summ:
-            s = re.sub('^[\W](.*)[\W]$', '', s)
+            s = re.sub('\n', '', s)
+            s = re.sub('^[\W]', '', s)
+            s = re.sub('[\W]$', '', s)
+            s = s.strip()
             if s == '':
                 continue
             sentence_list_summ_cln.append(s)
@@ -73,5 +86,6 @@ for d_i, d in enumerate(dirs):
         total[d_i] += 1
 
         # print(sentence_list_text_cln)
+        # print(sentence_list_summ_cln)
         # exit()
 print(total)
