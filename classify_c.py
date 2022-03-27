@@ -15,7 +15,7 @@ vect_dir = 'vect_c/'
 r = []
 
 for d in dirs:
-    dir = "%s%s%s" % (vect_dir, v_methods[0], d) # temp tylko cv
+    dir = "%s%s%s" % (vect_dir, v_methods[0], d)
     arr = os.listdir(dir)
 
     for file in arr:

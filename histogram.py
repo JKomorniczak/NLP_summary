@@ -1,5 +1,3 @@
-import nltk
-from nltk.tokenize import word_tokenize
 import matplotlib.pyplot as plt
 import os
 import pandas as pd

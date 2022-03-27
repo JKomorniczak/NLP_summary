@@ -53,7 +53,6 @@ for d_i, d in enumerate(dirs):
         for sent_sum in sentence_list_summ_cln:
             if sent_sum not in sentence_list_text_cln:
                 print(d, news, sent_sum)
-                # exit()
                 err = True
         if err:
             continue
@@ -74,6 +73,4 @@ for d_i, d in enumerate(dirs):
         df.to_csv('prep/%s%s'% (d, news)) 
         total[d_i] += 1
 
-        # print(sentence_list_text_cln)
-        # exit()
 print(total)    

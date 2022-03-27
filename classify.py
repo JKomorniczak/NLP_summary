@@ -15,7 +15,7 @@ vect_dir = 'vect/'
 r=[]
 
 for d in dirs:
-    dir = "%s%s%s" % (vect_dir, v_methods[0], d) # temp tylko cv
+    dir = "%s%s%s" % (vect_dir, v_methods[0], d)
     arr = os.listdir(dir)
 
     for file in arr:
@@ -25,9 +25,6 @@ for d in dirs:
         data = np.load(dir+file)
         X = data[:,:-1]
         y = data[:,-1]
-
-        # print(X.shape)
-        # exit()
 
         X = SelectKBest(chi2, k=10).fit_transform(X, y)
         # if min(X.shape)<10:
