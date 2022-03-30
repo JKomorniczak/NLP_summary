@@ -21,6 +21,7 @@ for d_id, dir in enumerate(dirs):
 
                 r = res[v_id,e_id,clf_id]
                 ax[e_id, clf_id].hist(r, bins=30)
+                ax[e_id, clf_id].set_xlim(0,1)
 
                 if e_id==0:
                     ax[e_id, clf_id].set_title(clf)
