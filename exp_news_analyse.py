@@ -5,7 +5,7 @@ dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
 
 for d_id, dir in enumerate(dirs):
 
-    res = np.load('res_news_%i.npy' % d_id)[0]
+    res = np.load('res/res_news_%i.npy' % d_id)[0]
     print(res.shape) # vactorizers, extractors, clfs, news
 
     extractors = ['KBest-5', 'KBest-15', 'KBest-25', 'PCA-5', 'PCA-15', 'PCA-25']
@@ -15,7 +15,7 @@ for d_id, dir in enumerate(dirs):
     for v_id, vect in enumerate(vectorizers):
 
         fig, ax = plt.subplots(6,4, figsize=(10,10), sharex=True, sharey=True)
-        plt.suptitle('tech %s' % vect, fontsize=18)
+        plt.suptitle('%s %s' % (dir, vect), fontsize=18)
         for e_id, e in enumerate(extractors):
             for clf_id, clf in enumerate(clfs):
 

@@ -1,4 +1,5 @@
 import os
+from tkinter import E
 import numpy as np
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
@@ -29,14 +30,15 @@ for d in dirs:
         y_test = data[:,-1]
 
         #collect other (train data)
-        other_data = []
+        other_data=[]
         for file_other in arr:
             if file_other in ['.DS_Store', file]:
                 continue
-            data = np.load(dir+file)
+            data = np.load(dir+file_other)
             other_data.append(data)
-        other_data = np.array(other_data)
-        other_data = other_data.reshape((other_data.shape[0]*other_data.shape[1], -1))
+        od = [o for o in other_data]
+        other_data = np.concatenate((od), axis=0)
+
         X_train = other_data[:,:-1]
         y_train = other_data[:,-1]
 
