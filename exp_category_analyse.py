@@ -20,7 +20,7 @@ for d_id, dir in enumerate(dirs):
     vectorizers = ['CV', 'TF', 'TFIDF']
 
     fig, ax = plt.subplots(1,3, figsize=(8,4), sharex=True, sharey=True)
-    plt.suptitle('%s' % (dir), fontsize=18)
+    plt.suptitle('%s - GNB, KBest-25' % (dir), fontsize=18)
 
     for v_id, vect in enumerate(vectorizers):
         for e_id, e in enumerate(extractors):
