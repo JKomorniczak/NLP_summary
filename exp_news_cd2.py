@@ -21,7 +21,7 @@ for d_id, dir in enumerate(dir_names):
 
         
 plt.tight_layout()
-plt.savefig('foo.png')
+plt.savefig('fig/cd_all.png')
         
 
         
