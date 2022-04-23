@@ -43,5 +43,5 @@ for d_id, dir in enumerate(dirs):
         n = ranks.shape[0]
         cd = 2.77 * np.sqrt((k*(k+1))/(6*n))
         Orange.evaluation.graph_ranks(mean_ranks, methods, cd=cd, width=8, textspace=1.5, filename='foo2')
-        plt.savefig('foo.png')
-        exit()
+        plt.savefig('cd/%s%s.png' % (dir_names[d_id], vect))
+        # exit()
