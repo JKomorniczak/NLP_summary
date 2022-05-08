@@ -74,8 +74,4 @@ for d_id, dir in enumerate(dirs):
             f = open("tables/%s%s.tex" % (dir_names[d_id], clf), "w")
             f.write(table)
             f.close()
-            
-
-    # exit()
-
 
