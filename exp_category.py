@@ -2,12 +2,7 @@ import os
 import numpy as np
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import chi2
-from sklearn.model_selection import LeaveOneOut
 from sklearn.naive_bayes import GaussianNB
-from sklearn.decomposition import PCA
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.neural_network import MLPClassifier
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.base import clone
 import time
 from sklearn.metrics import accuracy_score
@@ -21,15 +16,11 @@ np.random.seed(123)
 def get_base_classifiers(random_state):
     return [
     GaussianNB(),
-    # KNeighborsClassifier(n_neighbors=3),
-    # MLPClassifier(random_state=random_state),
-    # DecisionTreeClassifier(random_state=random_state)
     ]
 
 base_extractors = [
-    # SelectKBest(chi2, k=5),
-    # SelectKBest(chi2, k=15),
-    SelectKBest(chi2, k=25)]
+    SelectKBest(chi2, k=25)
+    ]
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']
 v_methods = ['cv/', 'tf/', 'tfidf/']

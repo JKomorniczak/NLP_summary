@@ -58,5 +58,3 @@ for d in dirs:
         np.save('vect/tf/%s%s' % (d, file.split('.')[0]), array_tf)
         np.save('vect/cv/%s%s' % (d, file.split('.')[0]), array_cv)
 
-        # exit()
-

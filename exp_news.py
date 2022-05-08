@@ -22,14 +22,10 @@ def get_base_classifiers(random_state):
 
 base_extractors = [
     SelectKBest(chi2, k=5),
-    # SelectKBest(chi2, k=10),
     SelectKBest(chi2, k=15),
-    # SelectKBest(chi2, k=20),
     SelectKBest(chi2, k=25),
     PCA(n_components=5),
-    # PCA(n_components=10),
     PCA(n_components=15),
-    # PCA(n_components=20),
     PCA(n_components=25)]
 
 dirs = ['tech/', 'sport/', 'politics/', 'entertainment/', 'business/']

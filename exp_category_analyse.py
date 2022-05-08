@@ -13,7 +13,6 @@ for d_id, dir in enumerate(dirs):
 
     print(res_n.shape) # vactorizers, extractors, clfs, news
     print(res_c.shape) # vactorizers, extractors, clfs, news
-    # exit()
 
     extractors = ['KBest-25']
     clfs = ['GNB']
