@@ -13,6 +13,7 @@ for d in dirs:
     for file in arr:
         if file=='.DS_Store':
             continue
+        
         # print(dir+file)
         df = pd.read_csv(dir+file, index_col=0)
         sentences = df['Sentence']

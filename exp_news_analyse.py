@@ -12,15 +12,15 @@ for d_id, dir in enumerate(dirs):
     clfs = ['GNB', 'KNN', 'MLP', 'DT']
     vectorizers = ['CV', 'TF', 'TFIDF']
 
-    for v_id, vect in enumerate(vectorizers):
+    fig, ax = plt.subplots(6,4, figsize=(10,10), sharex=True, sharey=True)
+    plt.suptitle('%s' % (dir), fontsize=18)
 
-        fig, ax = plt.subplots(6,4, figsize=(10,10), sharex=True, sharey=True)
-        plt.suptitle('%s %s' % (dir, vect), fontsize=18)
+    for v_id, vect in enumerate(vectorizers):
         for e_id, e in enumerate(extractors):
             for clf_id, clf in enumerate(clfs):
 
                 r = res[v_id,e_id,clf_id]
-                ax[e_id, clf_id].hist(r, bins=30)
+                ax[e_id, clf_id].hist(r, bins=30, label = vect, alpha=0.33)
                 ax[e_id, clf_id].set_xlim(0,1)
 
                 if e_id==0:
@@ -28,5 +28,9 @@ for d_id, dir in enumerate(dirs):
                 if clf_id==0:
                     ax[e_id, clf_id].set_ylabel(e)
 
-        plt.tight_layout()
-        plt.savefig('fig/e1_%s_%s.png' % (d_id,vect))
+                ax[e_id, clf_id].spines['top'].set_visible(False)
+                ax[e_id, clf_id].spines['right'].set_visible(False)
+    ax[0,0].legend(loc=2)
+
+    plt.tight_layout()
+    plt.savefig('fig/e1_%s.png' % (d_id))
