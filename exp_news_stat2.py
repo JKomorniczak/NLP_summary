@@ -37,30 +37,31 @@ for d_id, dir in enumerate(dirs):
         current_res = res[v_id].T
         print(current_res.shape)
 
-        mean_news = np.around(np.mean(current_res, axis=1), decimals=3)
-        rows.append(mean_news)
+        mean_news = np.around(np.mean(current_res, axis=0), decimals=3)
+        print(mean_news)
+        rows.append(mean_news)        
 
-        ranks = []
-        for r in current_res:
-            ranks.append(rankdata(r).tolist())
-        ranks = np.array(ranks)
+        # ranks = []
+        # for r in current_res:
+        #     ranks.append(rankdata(r).tolist())
+        # ranks = np.array(ranks)
 
-        w_statistic = np.zeros((len(extractors), len(extractors)))
-        p_value = np.zeros((len(extractors), len(extractors)))
+        # w_statistic = np.zeros((len(extractors), len(extractors)))
+        # p_value = np.zeros((len(extractors), len(extractors)))
 
-        for i in range(len(extractors)):
-            for j in range(len(extractors)):
-                w_statistic[i, j], p_value[i, j] = ranksums(ranks.T[i], ranks.T[j])
+        # for i in range(len(extractors)):
+        #     for j in range(len(extractors)):
+        #         w_statistic[i, j], p_value[i, j] = ranksums(ranks.T[i], ranks.T[j])
 
-        advantage = np.zeros((len(extractors), len(extractors)))
-        advantage[w_statistic > 0] = 1
+        # advantage = np.zeros((len(extractors), len(extractors)))
+        # advantage[w_statistic > 0] = 1
 
-        significance = np.zeros((len(extractors), len(extractors)))
-        significance[p_value <= alfa] = 1
+        # significance = np.zeros((len(extractors), len(extractors)))
+        # significance[p_value <= alfa] = 1
 
-        stat_better = significance * advantage
+        # stat_better = significance * advantage
 
-        print(stat_better)
+        # print(stat_better)
 
         table = tabulate(rows, methods, floatfmt=".3f", tablefmt="latex")
         f = open("tables/table.tex", "w")

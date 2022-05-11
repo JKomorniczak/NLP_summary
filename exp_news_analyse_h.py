@@ -11,9 +11,12 @@ fig, ax = plt.subplots(5, 3, figsize=(10,13), sharex=True, sharey=True)
 # collect
 for d_id, dir in enumerate(dirs):
     res = np.load('res/res_news_%i.npy' % d_id)[0]
+    print(res.shape)
+
     # print(res.shape) # vactorizers, extractors, clfs, news
     for v_id, vect in enumerate(vectorizers):
         r_mean = np.mean(res[v_id], axis=2)
+        print(r_mean.shape)
 
         axx = ax[d_id, v_id]
         axx.imshow(r_mean.T, vmax=1, vmin=0.5)
@@ -22,6 +25,9 @@ for d_id, dir in enumerate(dirs):
         axx.set_xticklabels(extractors, rotation=90)
         axx.set_yticks(range(len(clfs)))
         axx.set_yticklabels(clfs)
+
+        print(dir, vect)
+        print(r_mean)
 
         if v_id==0:
             axx.set_ylabel(dir)
